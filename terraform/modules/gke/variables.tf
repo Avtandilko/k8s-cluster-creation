@@ -1,21 +1,29 @@
 variable "project_id" {
-  description = "Project ID"
+  description = <<-EOT
+    (Required) Project ID
+  EOT
   type        = string
 }
 
 variable "region" {
-  description = "GCP Region"
+  description = <<-EOT
+    (Required) GCP Region"
+  EOT
   type        = string
 }
 
 variable "gke_num_nodes" {
+  description = <<-EOT
+    (Optional) Number of gke nodes
+  EOT
   default     = 1
-  description = "Number of gke nodes"
   type        = number
 }
 
 variable "subnet_ip_cidr_range" {
+  description = <<-EOT
+    (Optional) CIDR range for the GKE subnet"
+  EOT
   default     = "10.10.0.0/24"
-  description = "CIDR range for the GKE subnet"
   type        = string
 }

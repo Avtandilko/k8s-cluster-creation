@@ -71,13 +71,12 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations:
+    kubernetes.io/ingress.class: nginx
   hosts:
-    - host: chart-example.local
+    - host: php-app.example
       paths:
         - path: /
           pathType: ImplementationSpecific
