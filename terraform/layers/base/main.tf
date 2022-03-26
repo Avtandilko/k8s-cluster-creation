@@ -1,5 +1,4 @@
-module "gke" {
-  source     = "../../modules/gke"
-  project_id = "playground-s-11-c5d3107d"
-  region     = "us-west1"
+module "api" {
+  source     = "../../modules/api"
+  project_id = "playground-s-11-884f1834"
 }

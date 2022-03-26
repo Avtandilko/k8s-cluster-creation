@@ -3,14 +3,20 @@
 # Provision base layer
 terraform -chdir=terraform/layers/base init
 terraform -chdir=terraform/layers/base plan
-terraform -chdir=terraform/layers/base apply
+terraform -chdir=terraform/layers/base apply -auto-approve
+
+# Provision infrastructure layer
+terraform -chdir=terraform/layers/infrastructure init
+terraform -chdir=terraform/layers/infrastructure plan
+terraform -chdir=terraform/layers/infrastructure apply -auto-approve
 
 # Provision service layer
 terraform -chdir=terraform/layers/service init
 terraform -chdir=terraform/layers/service plan
-terraform -chdir=terraform/layers/service apply
+terraform -chdir=terraform/layers/service apply -auto-approve
 
-# Provision app layer
-terraform -chdir=terraform/layers/app init
-terraform -chdir=terraform/layers/app plan
-terraform -chdir=terraform/layers/app apply
+# Provision application
+helm upgrade --install php-app helm --namespace php-app --create-namespace --wait 
+
+# Test application availability
+pytest -v pytest/test.py

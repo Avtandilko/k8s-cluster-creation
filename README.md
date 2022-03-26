@@ -10,14 +10,54 @@
 
 null-provisioner issues `gcloud container clusters get-credentials` command, that add new context into current kubeconfig and switch current context
 
+## Description
+
+### BISA model
+
+Base - infrastructure - service - app model is a way to decompose overall infrastructure into different layers
+
+picture
+
+#### Base
+
+The main goal of this step is to prepare GCP project:
+
+* Create project
+* Set up IAM users and roles
+* Enable APIs
+* Enable billing
+* ...
+
+#### Infrastructure
+
+The main goal of this step is to create cloud resources:
+
+* GKE
+* Network resources (VPC, subnets)
+* Managed databases
+* ...
+
+#### Service
+
+The main goal of this step is to prepare Kubernetes cluster for application deploy and create infrastructure components inside Kubernetes:
+
+* Ingress
+* Monitoring and logging tools
+* RBAC tools
+* ...
+
+#### Application
+
+The main goal of this step is to provision application and provide simple way to update it. Usually it should be done via CI/CD tools, like GitLab CI, Circle CI, etc...
+
 ## Checklist
 
 * [x] Write simple PHP application
 * [x] Write Helm Chart for simple PHP application
 * [x] Write Terraform code for GKE cluster provisioning
-* [ ] Write Terraform code for ingress-nginx provisioning or use GKE load balancer
+* [x] Write Terraform code for ingress-nginx provisioning or use GKE load balancer
 * [ ] Write Terraform code for application provisioning
-* [ ] Write pytest code for application availability check
+* [x] Write pytest code for application availability check
 
 PHP App:
 
@@ -29,6 +69,8 @@ To improve:
 * Remove hack with postStart hook for nginx deployment in Helm chart
 * Move Terraform state to S3
 * Enable container.googleapis.com via Terraform before GKE provisioning
+* Add linters for Terraform
+* Provide a better way of authorization for Kubernetes and Helm Terraform providers
 
 ## Steps
 
