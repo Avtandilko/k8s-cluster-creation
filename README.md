@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-The following utilities must be installed on the workstation:
+The following tools must be installed on the workstation:
 
 * Terraform (1.1.x)
 * Helm (3.x)
@@ -75,6 +75,7 @@ To improve:
 * Enable container.googleapis.com via Terraform before GKE provisioning
 * Add linters for Terraform
 * Provide a better way of authorization for Kubernetes and Helm Terraform providers
+* Fix tfsec issues
 
 ## Steps
 
