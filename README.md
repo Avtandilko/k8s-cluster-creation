@@ -2,9 +2,12 @@
 
 ## Prerequisites
 
+The following utilities must be installed on the workstation:
+
 * Terraform (1.1.x)
 * Helm (3.x)
 * gcloud
+* python3
 
 ❗❗❗ WARNING ❗❗❗
 
@@ -48,7 +51,7 @@ The main goal of this step is to prepare Kubernetes cluster for application depl
 
 #### Application
 
-The main goal of this step is to provision application and provide simple way to update it. Usually it should be done via CI/CD tools, like GitLab CI, Circle CI, etc...
+The main goal of this step is to provision application and provide simple way to update it. In real world it should be done via CI/CD tools like GitLab CI, Circle CI, etc...
 
 ## Checklist
 
@@ -58,8 +61,9 @@ The main goal of this step is to provision application and provide simple way to
 * [x] Write Terraform code for ingress-nginx provisioning or use GKE load balancer
 * [ ] Write Terraform code for application provisioning
 * [x] Write pytest code for application availability check
+* [ ] Create makefile or CI/CD configuration
 
-PHP App:
+PHP App
 
 * Code
 * docker build . -t avtandilko/php-app:v1
@@ -74,15 +78,18 @@ To improve:
 
 ## Steps
 
-* Authorize to GCP via gcloud (see https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication):
+* Authorize to GCP via gcloud (see https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication)
 
 ```bash
 gcloud auth application-default login --project=<project id>
 gcloud auth login
 ```
 
-* Install ingress-nginx and application to cluster (ToDo: manual steps now)
+* ~Install ingress-nginx and application to cluster (ToDo: manual steps now)~
+
+```bash
 helm upgrade --install ingress-nginx --version=4.0.18 ingress-nginx/ingress-nginx -n ingress-nginx
 helm upgrade --install app . -n app -f values.yaml
+```
 
 * Add external ip of ingress-nginx service to /etc/hosts file with `php-app.example` domain name (don't have any public DNS now and can't buy it)
