@@ -19,4 +19,7 @@ terraform -chdir=terraform/layers/service apply -auto-approve
 helm upgrade --install php-app helm --namespace php-app --create-namespace --wait 
 
 # Test application availability
+python3 -m venv pytest/venv
+source pytest/venv/bin/activate
+pip install -r pytest/requirements.txt
 pytest -v pytest/test.py
