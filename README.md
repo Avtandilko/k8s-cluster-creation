@@ -137,8 +137,8 @@ docker push avtandilko/php-app:v1
 
 ### To improve
 
-* [] Remove hack with postStart hook for nginx deployment in Helm chart
-* [] Move Terraform state to S3
-* [] Provide a better way of authorization for Kubernetes and Helm Terraform providers
-* [] Fix tfsec warnings
-* [] Remove manual step with DNS hardcode for pytest
+* [ ] Remove hack with postStart hook for nginx deployment in Helm chart
+* [ ] Move Terraform state to S3
+* [ ] Provide a better way of authorization for Kubernetes and Helm Terraform providers
+* [ ] Fix tfsec warnings
+* [ ] Remove manual step with DNS hardcode for pytest
