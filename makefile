@@ -20,7 +20,7 @@ service:
 
 # Deploy application
 application:
-	helm upgrade --install php-app helm --namespace php-app --create-namespace --wait 
+	helm upgrade --install php-app helm/chart -f helm/values.yaml --namespace php-app --create-namespace --wait 
 
 # Test application availability
 test:
@@ -31,6 +31,6 @@ test:
 
 # Clean all resources in cloud
 clean:
-    terraform -chdir=terraform/layers/service destroy -auto-approve
- 	terraform -chdir=terraform/layers/infrastructure destroy -auto-approve
- 	terraform -chdir=terraform/layers/base destroy -auto-approve
+	terraform -chdir=terraform/layers/service destroy -auto-approve
+	terraform -chdir=terraform/layers/infrastructure destroy -auto-approve
+	terraform -chdir=terraform/layers/base destroy -auto-approve

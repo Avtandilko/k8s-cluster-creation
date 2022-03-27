@@ -1,10 +1,3 @@
-variable "project_id" {
-  description = <<-EOT
-    (Required) Project ID
-  EOT
-  type        = string
-}
-
 variable "region" {
   description = <<-EOT
     (Required) GCP Region"

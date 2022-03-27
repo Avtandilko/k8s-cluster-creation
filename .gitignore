@@ -1,6 +1,14 @@
+# Terraform
+
 terraform.tfvars
 .terraform
 credentials.json
 .terraform.lock.hcl
 terraform.tfstate*
 .terraform.tfstate*
+
+# pytest
+
+.pytest_cache
+__pycache__
+venv

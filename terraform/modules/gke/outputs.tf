@@ -5,13 +5,6 @@ output "region" {
   value       = var.region
 }
 
-output "project_id" {
-  description = <<-EOT
-    GCloud Project ID
-  EOT
-  value       = var.project_id
-}
-
 output "kubernetes_cluster_name" {
   description = <<-EOT
     GKE Cluster Name

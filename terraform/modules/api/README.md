@@ -24,9 +24,7 @@ No modules.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_project_id"></a> [project\_id](#input\_project\_id) | (Required) Project ID | `string` | n/a | yes |
+No inputs.
 
 ## Outputs
 

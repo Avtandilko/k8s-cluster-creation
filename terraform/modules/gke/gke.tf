@@ -1,5 +1,5 @@
 resource "google_container_cluster" "primary" {
-  name     = "${var.project_id}-gke"
+  name     = "primary-gke"
   location = var.region
 
   remove_default_node_pool = true
@@ -22,11 +22,11 @@ resource "google_container_node_pool" "primary_nodes" {
     ]
 
     labels = {
-      env = var.project_id
+      env = "primary"
     }
 
     machine_type = "n1-standard-1"
-    tags         = ["gke-node", "${var.project_id}-gke"]
+    tags         = ["gke-node", "primary-gke"]
     metadata = {
       disable-legacy-endpoints = "true"
     }

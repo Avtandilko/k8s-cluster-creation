@@ -9,17 +9,88 @@ The following tools must be installed on the workstation:
 * gcloud
 * python3
 
-❗❗❗ WARNING ❗❗❗
+## Checklist
 
-null-provisioner issues `gcloud container clusters get-credentials` command, that add new context into current kubeconfig and switch current context
+* [x] Write simple PHP application and dockerize it
+* [x] Write Helm chart for simple PHP application
+* [x] Write Terraform code for GKE cluster provisioning
+* [x] Write Terraform code for ingress-nginx provisioning
+* [x] Write pytest code for application availability check
+* [x] Create makefile
+* [x] Write minimal documentation
+
+## Environment
+
+Google Cloud Platform sandbox by [A Cloud Guru](https://acloudguru.com)
+
+## Getting started
+
+1. Find GCP project id and put it in an environment variable `GOOGLE_PROJECT`:
+
+    ```sh
+    export GOOGLE_PROJECT=<project id>
+    ```
+
+2. Authorize to GCP via gcloud:
+
+    ```sh
+    gcloud auth login
+    gcloud config set project $GOOGLE_PROJECT
+    gcloud auth application-default login
+    ```
+
+3. Provision base layer:
+
+    ```sh
+    make base
+    ```
+
+4. Provision infrastructure layer:
+
+    ```sh
+    make infrastructure
+    ```
+
+    > ⚠️ **WARNING**: null-provisioner runs `gcloud container clusters get-credentials` command. This command adds new context into kubeconfig and switch current context.
+
+5. Provision service layer:
+
+    ```sh
+    make service
+    ```
+
+6. Deploy application:
+
+    ```sh
+    make application
+    ```
+
+7. Find an external ip of ingress-nginx service (or ingress resource address) and add it to `/etc/hosts` file with `php-app.example` domain name:
+
+    ```sh
+    kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+    kubectl get ingress php-app-chart -n php-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 
+    ```
+
+8. Test application availability:
+
+    ```sh
+    make test
+    ```
+
+9. Clean all resources in cloud:
+
+    ```sh
+    make clean
+    ```
 
 ## Description
 
 ### BISA model
 
-Base - infrastructure - service - app model is a way to decompose overall infrastructure into different layers
+Base Infrastructure Service App model is a way to decompose overall infrastructure into different layers in order to be able to reuse layers and separate areas of responsibility.
 
-picture
+![BISA](assets/images/bisa.drawio.svg)
 
 #### Base
 
@@ -53,44 +124,21 @@ The main goal of this step is to prepare Kubernetes cluster for application depl
 
 The main goal of this step is to provision application and provide simple way to update it. In real world it should be done via CI/CD tools like GitLab CI, Circle CI, etc...
 
-## Checklist
+## Additional information
 
-* [x] Write simple PHP application
-* [x] Write Helm Chart for simple PHP application
-* [x] Write Terraform code for GKE cluster provisioning
-* [x] Write Terraform code for ingress-nginx provisioning or use GKE load balancer
-* [ ] Write Terraform code for application provisioning
-* [x] Write pytest code for application availability check
-* [ ] Create makefile or CI/CD configuration
+### PHP App
 
-PHP App
+Simple hello world application. You cand build it with:
 
-* Code
-* docker build . -t avtandilko/php-app:v1
-
-To improve:
-
-* Remove hack with postStart hook for nginx deployment in Helm chart
-* Move Terraform state to S3
-* Enable container.googleapis.com via Terraform before GKE provisioning
-* Add linters for Terraform
-* Provide a better way of authorization for Kubernetes and Helm Terraform providers
-* Fix tfsec issues
-
-## Steps
-
-* Authorize to GCP via gcloud (see https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication)
-
-```bash
-gcloud auth application-default login --project=<project id>
-gcloud auth login
+```sh
+docker build app -t avtandilko/php-app:v1 
+docker push avtandilko/php-app:v1 
 ```
 
-* ~Install ingress-nginx and application to cluster (ToDo: manual steps now)~
+### To improve
 
-```bash
-helm upgrade --install ingress-nginx --version=4.0.18 ingress-nginx/ingress-nginx -n ingress-nginx
-helm upgrade --install app . -n app -f values.yaml
-```
-
-* Add external ip of ingress-nginx service to /etc/hosts file with `php-app.example` domain name (don't have any public DNS now and can't buy it)
+* [] Remove hack with postStart hook for nginx deployment in Helm chart
+* [] Move Terraform state to S3
+* [] Provide a better way of authorization for Kubernetes and Helm Terraform providers
+* [] Fix tfsec warnings
+* [] Remove manual step with DNS hardcode for pytest
